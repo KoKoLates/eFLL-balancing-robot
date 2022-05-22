@@ -8,9 +8,9 @@ from mpl_toolkits.mplot3d import Axes3D
 class System:
     def __init__(self):
         angle_function = [[-20, -20, -15, -5],
-                          [-15, -0.5, -0.15],
-                          [-5, 0.15, 0.15, 5],
-                          [0.15, 5, 15],
+                          [-15, -2, -1],
+                          [-5, -1, 1, 5],
+                          [1, 2, 15],
                           [5, 15, 20, 20]]
 
         dangle_function = [[-80, -80, -50, -5],
@@ -25,7 +25,7 @@ class System:
                           [5, 70, 160],
                           [60, 255, 255]]
 
-        angle_range = np.arange(-20, 20, 0.1, np.float32)
+        angle_range = np.arange(-20, 20, 1, np.float32)
         power_range = np.arange(-255, 255, 1, np.float32)
         dangle_range = np.arange(-80, 80, 0.5, np.float32)
 
@@ -94,7 +94,8 @@ class System:
             return z
 
         fig_3D = plt.figure()
-        ax = Axes3D(fig_3D)
+        ax = Axes3D(fig_3D, auto_add_to_figure=False)
+        fig_3D.add_axes(ax)
         X, Y = np.meshgrid(angle_range, dangle_range)
         Z = fun(X, Y)
         ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap=plt.cm.coolwarm)
@@ -102,7 +103,6 @@ class System:
         ax.set_ylabel("angle change", color='r')
         ax.set_zlabel("pwm", color='b')
 
-        plt.tight_layout()
         plt.show()
 
 
