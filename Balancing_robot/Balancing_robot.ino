@@ -33,15 +33,5 @@ void setup(){
 }
 
 void loop(){
-  acc_y = mpu.getAccelerationY();
-  acc_z = mpu.getAccelerationZ();
-  gyro_x = mpu.getRotationX();
-  Serial.print(acc_y);
-  Serial.print(" ");
-  Serial.print(acc_z);
-  Serial.print(" ");
-  Serial.println(gyro_x);
-  float accAngle = atan2(acc_y, acc_z)*RAD_TO_DEG;
-  Serial.println(accAngle);
-  delay(1000);
+  
 }
