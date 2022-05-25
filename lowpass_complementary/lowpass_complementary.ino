@@ -1,10 +1,9 @@
 #include <Wire.h>
-const int MPU = 0x68; // MPU6050 I2C address
+const int MPU = 0x68;
 float AccX, AccY, AccZ;
 float GyroX, GyroY, GyroZ;
 float accAngleX, accAngleY, gyroAngleX, gyroAngleY, gyroAngleZ;
 float roll, pitch, yaw;
-float AccErrorX, AccErrorY, GyroErrorX, GyroErrorY, GyroErrorZ;
 float elapsedTime, currentTime, previousTime;
 int c = 0;
 
@@ -46,10 +45,11 @@ void loop() {
   Wire.write(0x43); // Gyro data first register address 0x43
   Wire.endTransmission(false);
   Wire.requestFrom(MPU, 6, true);
-  GyroX = (Wire.read() << 8 | Wire.read()) * 250.0 / 32768.0 + 0.5; 
+  GyroX = (Wire.read() << 8 | Wire.read()) * 250.0 / 32768.0; 
   GyroY = (Wire.read() << 8 | Wire.read()) * 250.0 / 32768.0;
   GyroZ = (Wire.read() << 8 | Wire.read()) * 250.0 / 32768.0;
   // Correct the outputs with the calculated error values
+  float gyroRate = GyroX + 0.5;
   b = 0.95*b1 + 0.025*GyroX + 0.025*a1;
   b1 = b; a1 = GyroX;
   Serial.print(yn);
