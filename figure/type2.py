@@ -7,21 +7,21 @@ from mpl_toolkits.mplot3d import Axes3D
 
 class Type1:
     def __init__(self):
-        self.angle_range = np.arange(-45, 66, 1, np.float32)
+        self.angle_range = np.arange(-45, 46, 1, np.float32)
         self.velocity_range = np.arange(-50, 51, 1, np.float32)
         self.power_range = np.arange(-255, 256, 1, np.float32)
-        self.angle_function = [[-45, -45, 45], [-45, 45, 45]]
-        self.velocity_function = [[-50, -50, 50], [-50, 50, 50]]
+        self.angle_function = [[-45, -45, -15, 15], [-15, 15, 45, 45]]
+        self.velocity_function = [[-50, -50, -10, 10], [-10, 10, 50, 50]]
         self.power_function = [[-255, -255, 0], [-255, 0, 255], [0, 255, 255]]
 
         angle = fuzzy_ctrl.Antecedent(self.angle_range, 'angle')
         power = fuzzy_ctrl.Consequent(self.power_range, 'power')
         velocity = fuzzy_ctrl.Antecedent(self.velocity_range, 'velocity')
 
-        angle['N'] = fuzzy.trimf(self.angle_range, self.angle_function[0])
-        angle['P'] = fuzzy.trimf(self.angle_range, self.angle_function[1])
-        velocity['N'] = fuzzy.trimf(self.velocity_range, self.velocity_function[0])
-        velocity['P'] = fuzzy.trimf(self.velocity_range, self.velocity_function[1])
+        angle['N'] = fuzzy.trapmf(self.angle_range, self.angle_function[0])
+        angle['P'] = fuzzy.trapmf(self.angle_range, self.angle_function[1])
+        velocity['N'] = fuzzy.trapmf(self.velocity_range, self.velocity_function[0])
+        velocity['P'] = fuzzy.trapmf(self.velocity_range, self.velocity_function[1])
         power['N'] = fuzzy.trimf(self.power_range, self.power_function[0])
         power['Z'] = fuzzy.trimf(self.power_range, self.power_function[1])
         power['P'] = fuzzy.trimf(self.power_range, self.power_function[2])
@@ -55,12 +55,12 @@ class Type1:
 
     def figure(self):
         fig, (angle, velocity, power) = plt.subplots(nrows=3, figsize=(6, 6))
-        angle.plot(self.angle_range, fuzzy.trimf(self.angle_range, self.angle_function[0]), 'cornflowerblue', label='N')
-        angle.plot(self.angle_range, fuzzy.trimf(self.angle_range, self.angle_function[1]), 'mediumseagreen', label='P')
+        angle.plot(self.angle_range, fuzzy.trapmf(self.angle_range, self.angle_function[0]), 'cornflowerblue', label='N')
+        angle.plot(self.angle_range, fuzzy.trapmf(self.angle_range, self.angle_function[1]), 'mediumseagreen', label='P')
         angle.legend()
 
-        velocity.plot(self.velocity_range, fuzzy.trimf(self.velocity_range, self.velocity_function[0]), 'cornflowerblue', label='N')
-        velocity.plot(self.velocity_range, fuzzy.trimf(self.velocity_range, self.velocity_function[1]), 'mediumseagreen', label='P')
+        velocity.plot(self.velocity_range, fuzzy.trapmf(self.velocity_range, self.velocity_function[0]), 'cornflowerblue', label='N')
+        velocity.plot(self.velocity_range, fuzzy.trapmf(self.velocity_range, self.velocity_function[1]), 'mediumseagreen', label='P')
         velocity.legend()
 
         power.plot(self.power_range, fuzzy.trimf(self.power_range, self.power_function[0]), 'cornflowerblue', label='N')
