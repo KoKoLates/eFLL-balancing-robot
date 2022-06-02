@@ -34,7 +34,7 @@ void setup(){
 
 void loop(){
   MPU.MPU6050_DATA();
-  setMotor(motor_power * 10);
+  setMotor(motor_power);
 }
 
 ISR(TIMER1_COMPA_vect){
