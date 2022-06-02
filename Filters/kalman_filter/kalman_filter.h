@@ -15,6 +15,7 @@ typedef struct{
 
 extern void kalman1_init(kalman1 *state, float init_x, float init_p);
 extern void kalman2_init(kalman2 *state, float *init_x, float (*init_p)[2]);
-extern float kalman1_filter(kalman1 *state, float measure, int dim);
+extern float kalman1_filter(kalman1 *state, float measure);
+extern float kalman2_filter(kalman2 *state, float measure);
 
 # endif
