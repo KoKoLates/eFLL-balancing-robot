@@ -44,3 +44,11 @@ float kalman1_filter(kalman1 *state, float measure)
     return state -> x;
 }
 
+float kalman2_filter(kalman2 *state, float measure)
+{
+    float temp0 = 0.0f, temp1 = 0.0f, temp2 = 0.0f;
+    state -> x[0] = state -> a[0][0] * state -> x[0] + state -> a[0][1] * state -> x[1];
+    state -> x[1] = state -> a[1][0] * state -> x[0] + state -> a[1][1] * state -> x[1];
+
+    // TODO
+}
