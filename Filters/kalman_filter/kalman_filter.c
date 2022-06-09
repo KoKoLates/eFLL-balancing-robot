@@ -50,5 +50,25 @@ float kalman2_filter(kalman2 *state, float measure)
     state -> x[0] = state -> a[0][0] * state -> x[0] + state -> a[0][1] * state -> x[1];
     state -> x[1] = state -> a[1][0] * state -> x[0] + state -> a[1][1] * state -> x[1];
 
-    // TODO
+    state -> p[0][0] = state -> a[0][0] * state -> p[0][0] + state -> a[0][1] * state -> p[1][0] + state -> q[0];
+    state -> p[0][1] = state -> a[0][0] * state -> p[0][1] + state -> a[1][1] * state -> p[1][1];
+    state -> p[1][0] = state -> a[1][0] * state -> p[0][0] + state -> a[0][1] * state -> p[1][0];
+    state -> p[1][1] = state -> a[1][0] * state -> p[0][1] + state -> a[1][1] * state -> p[1][1] + state -> q[1];
+
+    temp1 = state -> p[0][0] * state -> h[0] + state -> p[0][1] * state -> h[1];
+    temp2 = state -> p[1][0] * state -> h[0] + state -> p[1][1] * state -> h[1];
+    temp0 = state -> r + state -> h[0] * temp0 + state -> h[1] * temp1;
+    state -> gain[0] = temp1 / temp2;
+    state -> gain[1] = temp2 / temp0;
+    
+    temp0 = state -> h[0] * state -> x[0] + state -> h[1] * state -> x[1];
+    state -> x[0] = state -> x[0] + state -> gain[0] * (measure - temp1); 
+    state -> x[1] = state -> x[1] + state -> gain[1] * (measure - temp2);
+
+    state -> p[0][0] = (1 - state -> gain[0] * state -> h[0]) * state -> p[0][0];
+    state -> p[0][1] = (1 - state -> gain[0] * state -> h[1]) * state -> p[0][1];
+    state -> p[1][0] = (1 - state -> gain[1] * state -> h[0]) * state -> p[1][0];
+    state -> p[1][1] = (1 - state -> gain[1] * state -> h[1]) * state -> p[1][1];
+
+    return state -> x[0];
 }
