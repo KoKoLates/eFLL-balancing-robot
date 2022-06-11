@@ -89,13 +89,13 @@ double Kalman::update_(double new_value, double new_rate){
  <br>
  The figure below shown the comparison and the effect of smoothing of each filter. The accelerator and gyroscope have been calibration first before the test. We choose the Kalman filter finally, due to the shift error effect of gyroscope of complementary filter. We think that error could be a key instance of stability. <br><br>
 
- ![image](./figures//filters.png)
+ ![image](./figures/filters.png)
 
 ### Fuzzy Logic System
 In the fuzzy logic system, we could convert a crisp input into a linguistic variable, and through the `IF-THEN` rule to get the corresponding outputs. In our fuzzy logic control system, we think two to three membership function is needed for the basic balancing robot. That is, `N` and `P` represent the negative and positive situation for the robot’s pose, if needed, `Z` represent no error situation. <br><br>
 
 ![image](./figures/type2-2.png)
-![image](.figures/type2-1.png)
+![image](./figures/type2-1.png)
 
 Once the angle pose is negative for the robot, and the angular velocity is negative too (mean tend to tilt to negative position), then the controller would output a positive PWM signal to the DC motor to drag back the cart to the balancing position. In another ways, if the robot is tilt to positive angle instead, the angular velocity is negative, then we could hope it could back to balancing itself. The degree of judge the position, rate and signal is depended by the shape of each membership function.
 
