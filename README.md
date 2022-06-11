@@ -89,22 +89,22 @@ double Kalman::update_(double new_value, double new_rate){
  <br>
  The figure below shown the comparison and the effect of smoothing of each filter. The accelerator and gyroscope have been calibration first before the test. We choose the Kalman filter finally, due to the shift error effect of gyroscope of complementary filter. We think that error could be a key instance of stability. <br><br>
 
- ![image](./Figures/filters.png)
+ ![image](./figures//filters.png)
 
 ### Fuzzy Logic System
 In the fuzzy logic system, we could convert a crisp input into a linguistic variable, and through the `IF-THEN` rule to get the corresponding outputs. In our fuzzy logic control system, we think two to three membership function is needed for the basic balancing robot. That is, `N` and `P` represent the negative and positive situation for the robot’s pose, if needed, `Z` represent no error situation. <br><br>
 
-![image](./Figures/type2-2.png)
-![image](./Figures/type2-1.png)
+![image](./figures/type2-2.png)
+![image](.figures/type2-1.png)
 
 Once the angle pose is negative for the robot, and the angular velocity is negative too (mean tend to tilt to negative position), then the controller would output a positive PWM signal to the DC motor to drag back the cart to the balancing position. In another ways, if the robot is tilt to positive angle instead, the angular velocity is negative, then we could hope it could back to balancing itself. The degree of judge the position, rate and signal is depended by the shape of each membership function.
 
 There are some of membership function I try as followings. Our membership function might be too simple that, the degree of negative could be `slight` or `serve`, so on positive. Thus, we could robust our membership function for the fuzzy logic control system to adjust the pose of the robot immediately. <br><br>
 
-![image](./Figures/type1-2.png)
-![image](./Figures/type1-1.png)
-![image](./Figures/type3-2.png)
-![image](./Figures/type3-1.png)
+![image](./figures/type1-2.png)
+![image](./figures/type1-1.png)
+![image](./figures/type3-2.png)
+![image](./figures/type3-1.png)
 
 Besides, Embedded Fuzzy Logic Library could only generate `triangular` and `trapezoidal` membership function, and it might limits the controller. Thus, maybe configure the membership function with nonlinear function like `Gaussian`, leading to a better performance.
 
@@ -112,8 +112,8 @@ Besides, Embedded Fuzzy Logic Library could only generate `triangular` and `trap
 Simply design a two-wheel robot and tell the simulation backend the `mass`, `inertia` and basic `damping factor` of the robot cart. And also give it the joint of the cart, like the shaft of the wheel and the cart’ connect which could manage a sensor of angular change for the simulation.
 <br><br>
 
-![image](./Figures/cart.png)
-![image](./Figures/simulink.png)
+![image](./figures/cart.png)
+![image](./figures/simulink.png)
 
 ## Misc
 ### Interrupt
