@@ -114,30 +114,3 @@ Simply design a two-wheel robot and tell the simulation backend the `mass`, `ine
 
 ![image](./figures/cart.png)
 ![image](./figures/simulink.png)
-
-## Misc
-### Interrupt
-```c
-void timer1_init(){
-  // Timer1 initialize
-  // close global interrupt
-  cli();
-  TCCR1A = 0;
-  TCCR1B = 0;
-  TCNT1 = 0;
-  // 1.6e7 /(prescaling * interupt frequncy) - 1
-  // Sample time 0.008
-  OCR1A = 15999;
-  TCCR1B |= (1 << WGM12);
-  TCCR1B |= (1 << CS11);
-  TIMSK1 |= (1 << OCIE1A);
-  // start global interrupt
-  sei();
-}
-
-ISR(TIMER1_COMPA_vect){
-    ...
-    // variable changing inside interrupt 
-    // should be declared as votalite in global field
-}
-```
