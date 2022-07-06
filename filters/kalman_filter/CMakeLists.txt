@@ -1,10 +1,10 @@
-CMAKE_MINIMUM_REQUIRED( VERSION 2.8 )
-PROJECT(KALMAN_FILTER)
+# CMakeLists.txt
+cmake_minimum_required(VERSION 3.0)
+project(Kalman)
+message(STATUS "The BINARY directory " ${Kalman_BINARY_DIR})
+message(STATUS "The BINARY directory " ${Kalman_BINARY_DIR})
+set(SRC_LIST main.c kalman_filter.c)
 
-MESSAGE(STATUS ${KALMAN_FILTER_BINARY_DIR})
-MESSAGE(STATUS ${KALMAN_FILTER_SOURCE_DIR})
-
-ADD_LIBRARY(kalman_filter_shared SHARED kalman_filter.c)
-
-ADD_EXECUTABLE(kalman_filter ${SRC_LIST})
-TARGET_LINK_LIBRARIES(kalman_filter kalman_filter_shared)
+# Define executable target
+include_directories(${PROJECET_SOURCE_DIR})
+add_executable(Kalman_Result ${SRC_LIST})
