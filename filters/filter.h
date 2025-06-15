@@ -7,9 +7,10 @@
 class Kalman{
   private:
     double Q_Angle, Q_Bias, R_Measure;
-    double K_Angle, K_Bias, K_Rate;
+    double K_Angle, K_Bias;
     double p[2][2], k[2];
-    double s, y, t, dt;
+    double s, y, dt;
+    unsigned long t;
 
   public:
     Kalman(double angle = 0.001, double bias = 0.003, double measure = 0.03);

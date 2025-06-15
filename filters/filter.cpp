@@ -12,34 +12,41 @@ Kalman::Kalman(double angle, double bias, double measure){
     for(int j=0; j<2; j++) p[i][j] = 0;
   }
 
-  t = (double)micros();
+  t = micros();
 }
 
 double Kalman::update_(double new_value, double new_rate){
-  dt = (double)(micros() - t) / 1e6;
+  unsigned long now = micros();
+  dt = (now - t) / 1e6;
+  t = now;
 
-  K_Rate = new_rate - K_Bias;
-  K_Angle += K_Rate * dt;
+  double rate = new_rate - K_Bias;
+  K_Angle += rate * dt;
 
-  p[0][0] += (p[1][1] + p[0][1]+ Q_Angle ) * dt;
-  p[0][1] -= p[1][1] * dt;
-  p[1][0] -= p[1][1] * dt;
-  p[1][1] += Q_Bias * dt;
+  // Update covariance matrix P
+  p[0][0] += dt * (dt * p[1][1] - p[0][1] - p[1][0] + Q_Angle);
+  p[0][1] -= dt * p[1][1];
+  p[1][0] -= dt * p[1][1];
+  p[1][1] += dt * Q_Bias;
 
+  // Calculate Kalman gain
   s = p[0][0] + R_Measure;
   k[0] = p[0][0] / s;
   k[1] = p[1][0] / s;
 
+  // Update estimation with measurement
   y = new_value - K_Angle;
   K_Angle += k[0] * y;
   K_Bias += k[1] * y;
 
-  p[0][0] -= k[0] * p[0][0];
-  p[0][1] -= k[0] * p[0][1];
-  p[1][0] -= k[1] * p[0][0];
-  p[1][1] -= k[1] * p[0][1];
+  // Update error covariance matrix
+  double p00_temp = p[0][0];
+  double p01_temp = p[0][1];
 
-  t = (double)micros();
+  p[0][0] -= k[0] * p00_temp;
+  p[0][1] -= k[0] * p01_temp;
+  p[1][0] -= k[1] * p00_temp;
+  p[1][1] -= k[1] * p01_temp;
 
   return K_Angle;
 }
