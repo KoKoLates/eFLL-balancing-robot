@@ -73,39 +73,39 @@ In our application—estimating a single angle and its bias from an IMU—both t
 
  ```cpp
 double Kalman::update_(double new_value, double new_rate){
-  unsigned long now = micros();
-  dt = (now - t) / 1e6;
-  t = now;
+    unsigned long now = micros();
+    dt = (now - t) / 1e6;
+    t = now;
 
-  double rate = new_rate - K_Bias;
-  K_Angle += rate * dt;
+    double rate = new_rate - K_Bias;
+    K_Angle += rate * dt;
 
-  // Update covariance matrix P
-  p[0][0] += dt * (dt * p[1][1] - p[0][1] - p[1][0] + Q_Angle);
-  p[0][1] -= dt * p[1][1];
-  p[1][0] -= dt * p[1][1];
-  p[1][1] += dt * Q_Bias;
+    // Update covariance matrix P
+    p[0][0] += dt * (dt * p[1][1] - p[0][1] - p[1][0] + Q_Angle);
+    p[0][1] -= dt * p[1][1];
+    p[1][0] -= dt * p[1][1];
+    p[1][1] += dt * Q_Bias;
 
-  // Calculate Kalman gain
-  s = p[0][0] + R_Measure;
-  k[0] = p[0][0] / s;
-  k[1] = p[1][0] / s;
+    // Calculate Kalman gain
+    s = p[0][0] + R_Measure;
+    k[0] = p[0][0] / s;
+    k[1] = p[1][0] / s;
 
-  // Update estimation with measurement
-  y = new_value - K_Angle;
-  K_Angle += k[0] * y;
-  K_Bias += k[1] * y;
+    // Update estimation with measurement
+    y = new_value - K_Angle;
+    K_Angle += k[0] * y;
+    K_Bias += k[1] * y;
 
-  // Update error covariance matrix
-  double p00_temp = p[0][0];
-  double p01_temp = p[0][1];
+    // Update error covariance matrix
+    double p00_temp = p[0][0];
+    double p01_temp = p[0][1];
 
-  p[0][0] -= k[0] * p00_temp;
-  p[0][1] -= k[0] * p01_temp;
-  p[1][0] -= k[1] * p00_temp;
-  p[1][1] -= k[1] * p01_temp;
+    p[0][0] -= k[0] * p00_temp;
+    p[0][1] -= k[0] * p01_temp;
+    p[1][0] -= k[1] * p00_temp;
+    p[1][1] -= k[1] * p01_temp;
 
-  return K_Angle;
+    return K_Angle;
 }
  ```
 
